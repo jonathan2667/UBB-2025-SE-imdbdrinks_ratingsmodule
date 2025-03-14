@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "imdbdrinks_ratingsmodule (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "imdbdrinks_ratingsmodule (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

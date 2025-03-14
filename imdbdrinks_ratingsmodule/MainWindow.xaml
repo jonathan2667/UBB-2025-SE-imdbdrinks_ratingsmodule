@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="imdbdrinks_ratingsmodule.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:domain="using:imdbdrinks_ratingsmodule.Domain"
+    mc:Ignorable="d"
+    Title="imdbdrinks‑ratingsmodule">
+
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Ratings and Reviews for Product 100" FontSize="24" Margin="0,0,0,10" Grid.Row="0" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Ratings Section -->
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Ratings" FontSize="18" Margin="0,0,0,5"/>
+                <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=OneWay}"
+                          SelectedItem="{x:Bind ViewModel.SelectedRating, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="domain:Rating">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Rating: " />
+                                <TextBlock Text="{x:Bind RatingValue}" />
+                                <TextBlock Text=" by User " />
+                                <TextBlock Text="{x:Bind UserId}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <TextBlock Text="Average Rating:" FontWeight="Bold" Margin="0,10,0,0"/>
+                <TextBlock Text="{x:Bind ViewModel.AverageRating, Mode=OneWay}" />
+            </StackPanel>
+            <!-- Reviews Section -->
+            <StackPanel Grid.Column="2">
+                <TextBlock Text="Reviews" FontSize="18" Margin="0,0,0,5"/>
+                <ListView ItemsSource="{x:Bind ReviewVM.Reviews, Mode=OneWay}"
+                          SelectedItem="{x:Bind ReviewVM.SelectedReview, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="domain:Review">
+                            <StackPanel>
+                                <TextBlock Text="{x:Bind Content}" TextWrapping="Wrap"/>
+                                <TextBlock Text="{x:Bind CreationDate}" FontSize="10" Foreground="Gray"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Grid>
+        <!-- New Review Input Section -->
+        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,10,0,0">
+            <TextBlock Text="Leave a Review:" FontSize="18" Margin="0,0,0,5"/>
+            <TextBox x:Name="ReviewTextBox" PlaceholderText="Enter your review here" Margin="0,0,0,5"/>
+            <Button Content="Submit Review" Click="SubmitReview_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
