@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.IO;
+using System.Text.Json;
 
 namespace imdbdrinks_ratingsmodule
 {
@@ -22,10 +24,11 @@ namespace imdbdrinks_ratingsmodule
         private readonly Random _random = new();
 
         private readonly HttpClient _client;
-        private const string ApiKey = "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"; // Replace with your OpenRouter API Key
+        //string ApiKey; // Replace with your OpenRouter API Key
         private const string ApiUrl = "https://openrouter.ai/api/v1/chat/completions";
         private const string Model = "deepseek/deepseek-r1-zero:free";
         private readonly Action<string> _onReviewGenerated;
+        private string _apiKeyLoadError;
 
         public AIReviewWindow(Action<string> onReviewGenerated)
         {
@@ -56,7 +59,7 @@ namespace imdbdrinks_ratingsmodule
             }
             finally
             {
-                Spinner.Visibility = Visibility.Collapsed; // hide spinner
+                Spinner.Visibility = Visibility.Collapsed; 
             }
 
         }
@@ -65,6 +68,8 @@ namespace imdbdrinks_ratingsmodule
         {
             try
             {
+                string ApiKey = LoadApiKey();
+             
                 string prompt = $"Write a short and natural-sounding review (2–3 sentences) that includes the following words:  \"{keywords}\". The review should describe the drink realistically, as if written by a genuine customer. Do not mention the name of the drink anywhere—just focus on how it tastes, feels, or is experienced. All given words must be used exactly as they are, and the review should feel coherent and honest.\r\n";
 
                 var requestBody = new
@@ -134,5 +139,37 @@ namespace imdbdrinks_ratingsmodule
             this.Close();
 
         }
+
+        private string LoadApiKey()
+        {
+            try
+            {
+                string path = Path.Combine(AppContext.BaseDirectory, "apikey.json");
+
+                if (!File.Exists(path))
+                {
+                    _apiKeyLoadError = "apikey.json not found in output directory.";
+                    return string.Empty;
+                }
+
+                string json = File.ReadAllText(path);
+                var doc = JsonDocument.Parse(json);
+
+                if (doc.RootElement.TryGetProperty("OPENROUTER_API_KEY", out var apiKeyElement))
+                {
+                    return apiKeyElement.GetString() ?? string.Empty;
+                }
+
+                _apiKeyLoadError = "API key property 'OPENROUTER_API_KEY' not found in apikey.json.";
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                _apiKeyLoadError = $"Could not load API key.\nDetails: {ex.Message}";
+                return string.Empty;
+            }
+        }
+
+
     }
 }
