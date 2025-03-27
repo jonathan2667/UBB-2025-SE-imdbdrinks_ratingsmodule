@@ -6,8 +6,10 @@ using imdbdrinks_ratingsmodule.Domain;  // Needed for creating new Review object
 
 namespace imdbdrinks_ratingsmodule
 {
+
     public sealed partial class MainWindow : Window
     {
+       
         // Public properties for binding.
         public RatingViewModel ViewModel { get; set; }
         public ReviewViewModel ReviewVM { get; set; }
@@ -37,6 +39,13 @@ namespace imdbdrinks_ratingsmodule
             }
         }
 
+        private void AddReview_Click(object sender, RoutedEventArgs e)
+        {
+            var reviewWindow = new ReviewWindow(ViewModel, ReviewVM);
+            reviewWindow.Activate();
+
+        }
+        /*
         private void SubmitReview_Click(object sender, RoutedEventArgs e)
         {
             // Ensure a rating is selected.
@@ -64,5 +73,17 @@ namespace imdbdrinks_ratingsmodule
                 ReviewTextBox.Text = string.Empty;
             }
         }
+
+        private void GenerateAIReview_Click(object sender, RoutedEventArgs e)
+        {
+            string aiGeneratedReview = "This is an AI-generated review based on your input.";
+
+            // Create a new AIReviewPage window
+            var aiReviewWindow = new AIReviewWindow();
+            aiReviewWindow.Activate();  // Open as a new window
+        }
+
+
+        */
     }
 }
