@@ -46,7 +46,7 @@ namespace imdbdrinks_ratingsmodule
             string content = ReviewTextBox.Text;
             if (!string.IsNullOrWhiteSpace(content))
             {
-                // Create a new review. (Using dummy UserId 999 for this example.)
+                // Create a new review.
                 var newReview = new Review
                 {
                     RatingId = ViewModel.SelectedRating.RatingId,

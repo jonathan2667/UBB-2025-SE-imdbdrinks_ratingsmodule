@@ -22,7 +22,7 @@ namespace imdbdrinks_ratingsmodule
         private readonly Random _random = new();
 
         private readonly HttpClient _client;
-        private const string ApiKey = "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"; // Replace with your OpenRouter API Key
+        private const string ApiKey = "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"; // Replace with your OpenRouter API Key
         private const string ApiUrl = "https://openrouter.ai/api/v1/chat/completions";
         private const string Model = "deepseek/deepseek-r1-zero:free";
         private readonly Action<string> _onReviewGenerated;
@@ -33,7 +33,7 @@ namespace imdbdrinks_ratingsmodule
             _client = new HttpClient();
             _onReviewGenerated = onReviewGenerated;
         }
-        
+
 
         private async void SubmitReview_Click(object sender, RoutedEventArgs e)
         {
@@ -102,7 +102,6 @@ namespace imdbdrinks_ratingsmodule
                         cleaned = cleaned.Substring(1, cleaned.Length - 2).Trim();
 
                     return cleaned;
-
                     //return doc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
                 }
                 else
@@ -131,9 +130,8 @@ namespace imdbdrinks_ratingsmodule
             };
             await dialog.ShowAsync();
 
-            // Fill the TextBox with the generated review after dialog is closed
             _onReviewGenerated?.Invoke(content);
-            this.Close(); // optional: close AI window after passing data back
+            this.Close();
 
         }
     }

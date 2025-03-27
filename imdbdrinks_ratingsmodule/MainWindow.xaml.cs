@@ -2,8 +2,7 @@ using Microsoft.UI.Xaml;
 using imdbdrinks_ratingsmodule.Repositories;
 using imdbdrinks_ratingsmodule.Services;
 using imdbdrinks_ratingsmodule.ViewModels;
-using imdbdrinks_ratingsmodule.Domain;  // Needed for creating new Review objects
-
+using imdbdrinks_ratingsmodule.Domain; 
 namespace imdbdrinks_ratingsmodule
 {
 
@@ -45,45 +44,6 @@ namespace imdbdrinks_ratingsmodule
             reviewWindow.Activate();
 
         }
-        /*
-        private void SubmitReview_Click(object sender, RoutedEventArgs e)
-        {
-            // Ensure a rating is selected.
-            if (ViewModel.SelectedRating == null)
-                return;
-
-            // Get the review text.
-            string content = ReviewTextBox.Text;
-            if (!string.IsNullOrWhiteSpace(content))
-            {
-                // Create a new review. (Using dummy UserId 999 for this example.)
-                var newReview = new Review
-                {
-                    RatingId = ViewModel.SelectedRating.RatingId,
-                    UserId = 999,
-                    Content = content,
-                    IsActive = true
-                    // CreationDate will be set in the service.
-                };
-
-                // Add the review via the ViewModel.
-                ReviewVM.AddReview(newReview);
-
-                // Clear the TextBox.
-                ReviewTextBox.Text = string.Empty;
-            }
-        }
-
-        private void GenerateAIReview_Click(object sender, RoutedEventArgs e)
-        {
-            string aiGeneratedReview = "This is an AI-generated review based on your input.";
-
-            // Create a new AIReviewPage window
-            var aiReviewWindow = new AIReviewWindow();
-            aiReviewWindow.Activate();  // Open as a new window
-        }
-
-
-        */
+       
     }
 }
