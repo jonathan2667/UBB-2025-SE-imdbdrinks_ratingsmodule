@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="imdbdrinks_ratingsmodule.ReviewWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:imdbdrinks_ratingsmodule"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="ReviewWindow">
+
+    <Grid>
+        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="10,10,10, 10">
+            <TextBlock Text="Leave a Review:" FontSize="18" Margin="0,0,0,5"/>
+            <TextBox x:Name="ReviewTextBox" PlaceholderText="Enter your review here" Margin="0,0,0,5"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="Submit Review" Click="SubmitReview_Click" Margin="0,0,10,0"/>
+                <Button Content="Generate AI Review" Click="GenerateAIReview_Click"/>
+            </StackPanel>
+
+        </StackPanel> 
+
+    </Grid>
+</Window>
