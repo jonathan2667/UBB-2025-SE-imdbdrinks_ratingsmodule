@@ -9,20 +9,34 @@
     mc:Ignorable="d"
     Title="imdbdrinks‑ratingsmodule">
 
-    <Grid Padding="20">
+    <Grid Padding="30">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Ratings and Reviews for Product 100" FontSize="24" Margin="0,0,0,10" Grid.Row="0" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="0"></Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="1"></Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="0"></Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="1"></Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2" Grid.Column="0"></Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2" Grid.Column="1"></Border>
+
+        <TextBlock Text="Product Name" Grid.Row="0" Grid.Column="1" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 20, 0, 0" FontSize="30"/>
+        <TextBlock Text="Average Price: $5" Grid.Row="0" Grid.Column="1" Height="50" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 20" FontSize="24" />
+
+        <Image Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="150" Width="300" 
+               Source="Assets\beer.webp" Stretch="UniformToFill">
+        </Image>
+
+        <!-- 
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <!-- Ratings Section -->
+            Ratings Section
             <StackPanel Grid.Column="0">
                 <TextBlock Text="Ratings" FontSize="18" Margin="0,0,0,5"/>
                 <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=OneWay}"
@@ -41,7 +55,7 @@
                 <TextBlock Text="Average Rating:" FontWeight="Bold" Margin="0,10,0,0"/>
                 <TextBlock Text="{x:Bind ViewModel.AverageRating, Mode=OneWay}" />
             </StackPanel>
-            <!-- Reviews Section -->
+            Reviews Section
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Reviews" FontSize="18" Margin="0,0,0,5"/>
                 <ListView ItemsSource="{x:Bind ReviewVM.Reviews, Mode=OneWay}"
@@ -58,10 +72,10 @@
             </StackPanel>
         </Grid>
 
-
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,10,0,0">
             <Button Content="Add Review" Click="AddReview_Click" Margin="0,0,10,0"/>
         </StackPanel>
-
+    </Grid> -->
+        
     </Grid>
 </Window>
