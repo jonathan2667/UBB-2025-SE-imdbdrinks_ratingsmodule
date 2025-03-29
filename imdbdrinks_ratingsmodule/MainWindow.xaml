@@ -9,73 +9,81 @@
     mc:Ignorable="d"
     Title="imdbdrinks‑ratingsmodule">
 
-    <Grid Padding="30">
+    <Grid Padding="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.7*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
 
-        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="0"></Border>
-        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="1"></Border>
-        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="0"></Border>
-        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="1"></Border>
-        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2" Grid.Column="0"></Border>
-        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2" Grid.Column="1"></Border>
+        <!--Title-->
+        <TextBlock Text="Ratings and Reviews for Product 100" FontSize="24" FontWeight="Bold" FontFamily="{StaticResource FontFamily}"
+            VerticalAlignment="Center" Margin="20,0,0,0" Grid.Row="0"/>
+        
+        <!-- Ratings Section -->
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Ratings" FontSize="20" FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold"
+                Margin="20,20,0,10"/>
+            <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.SelectedRating, Mode=TwoWay}">
 
-        <TextBlock Text="Product Name" Grid.Row="0" Grid.Column="1" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 20, 0, 0" FontSize="30"/>
-        <TextBlock Text="Average Price: $5" Grid.Row="0" Grid.Column="1" Height="50" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 20" FontSize="24" />
-
-        <Image Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="150" Width="300" 
-               Source="Assets\beer.webp" Stretch="UniformToFill">
-        </Image>
-
-        <!-- 
-        <Grid Grid.Row="1">
-            Ratings Section
-            <StackPanel Grid.Column="0">
-                <TextBlock Text="Ratings" FontSize="18" Margin="0,0,0,5"/>
-                <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=OneWay}"
-                          SelectedItem="{x:Bind ViewModel.SelectedRating, Mode=TwoWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="domain:Rating">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Rating: " />
-                                <TextBlock Text="{x:Bind RatingValue}" />
-                                <TextBlock Text=" by User " />
-                                <TextBlock Text="{x:Bind UserId}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <TextBlock Text="Average Rating:" FontWeight="Bold" Margin="0,10,0,0"/>
-                <TextBlock Text="{x:Bind ViewModel.AverageRating, Mode=OneWay}" />
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="domain:Rating">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Rating:" FontFamily="{StaticResource FontFamily}" Margin="0,0,5,0"/>
+                            <TextBlock Text="{x:Bind RatingValue}" FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold"/>
+                            <TextBlock Text=" by User " FontFamily="{StaticResource FontFamily}"/>
+                            <TextBlock Text="{x:Bind UserId}" FontFamily="{StaticResource FontFamily}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+        
+        <!--Average Rating + User Rating-->
+        <StackPanel Orientation="Vertical" Grid.Row="2" HorizontalAlignment="Center">
+            <TextBlock Text="Average Rating" FontFamily="{StaticResource FontFamily}" FontSize="16" FontWeight="Bold"
+                Margin="0,0,0,5"/>
+            <StackPanel Orientation="Horizontal" >
+                <Image Source="/Assets/image 7.png" HorizontalAlignment="Left" Margin="20,0,10,0"/>
+                <TextBlock FontFamily="{StaticResource FontFamily}" FontSize="20px" HorizontalAlignment="Right" 
+                    VerticalAlignment="Center" Text="{x:Bind ViewModel.AverageRating, Mode=OneWay}" />
             </StackPanel>
-            Reviews Section
-            <StackPanel Grid.Column="2">
-                <TextBlock Text="Reviews" FontSize="18" Margin="0,0,0,5"/>
-                <ListView ItemsSource="{x:Bind ReviewVM.Reviews, Mode=OneWay}"
-                          SelectedItem="{x:Bind ReviewVM.SelectedReview, Mode=TwoWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="domain:Review">
-                            <StackPanel>
-                                <TextBlock Text="{x:Bind Content}" TextWrapping="Wrap"/>
-                                <TextBlock Text="{x:Bind CreationDate}" FontSize="10" Foreground="Gray"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
+        </StackPanel>
+       
+        <!-- Reviews Section -->
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Reviews" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                FontFamily="{StaticResource FontFamily}" FontSize="20" FontWeight="SemiBold"
+                Margin="20,0,0,0"/>
+
+            <Button Grid.Row="0" Grid.Column="1" Content="add review" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                Height="30" Width="150" Click="AddReview_Click" Margin="0,0,20,0" Padding="0,0,0,0" BorderThickness="0" 
+                Foreground="#FFFFEE" Background="#313131" FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold" />
+
+            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{x:Bind ReviewVM.Reviews, Mode=OneWay}"
+                SelectedItem="{x:Bind ReviewVM.SelectedReview, Mode=TwoWay}" Background="#cacaca">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="domain:Review">
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind Content}" TextWrapping="Wrap" FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold"/>
+                            <TextBlock Text="{x:Bind CreationDate}" FontSize="12" Foreground="#3d3d3d" FontFamily="{StaticResource FontFamily}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
 
-        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,10,0,0">
-            <Button Content="Add Review" Click="AddReview_Click" Margin="0,0,10,0"/>
-        </StackPanel>
-    </Grid> -->
-        
     </Grid>
 </Window>
