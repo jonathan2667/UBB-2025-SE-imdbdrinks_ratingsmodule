@@ -9,17 +9,22 @@
     mc:Ignorable="d"
     Title="ReviewWindow">
 
-    <Grid>
-        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="10,10,10, 10">
-            <TextBlock Text="Leave a Review:" FontSize="18" Margin="0,0,0,5"/>
-            <TextBox x:Name="ReviewTextBox" PlaceholderText="Enter your review here" Margin="0,0,0,5"/>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Button Content="Submit Review" Click="SubmitReview_Click" Margin="0,0,10,0"/>
-                <Button Content="Generate AI Review" Click="GenerateAIReview_Click"/>
+    <Grid Padding="30">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Leave a Review:" FontSize="24" FontWeight="Bold" FontFamily="{StaticResource FontFamily}"
+                Margin="0,20,0,40" HorizontalAlignment="Center"/>
+            
+            <TextBox x:Name="ReviewTextBox" PlaceholderText="Enter your review here" Margin="0,0,0,40"
+                Height="100" Width="500" BorderBrush="#3d3d3d" FontFamily="{StaticResource FontFamily}" />
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="Auto">
+                <Button Content="Submit Review" Click="SubmitReview_Click" Margin="0,0,20,0" 
+                    HorizontalAlignment="Left" FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold"/>
+                
+                <Button Content="Generate AI Review" Click="GenerateAIReview_Click"
+                    Foreground="#FFFFEE" Background="#313131" HorizontalAlignment="Right" 
+                    FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold"/>
             </StackPanel>
-
         </StackPanel> 
-
     </Grid>
 </Window>
