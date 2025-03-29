@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="imdbdrinks_ratingsmodule.RatingWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:imdbdrinks_ratingsmodule"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="rootGrid" Background="White">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <!-- Title -->
+            <TextBlock Text="Rate this" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="Drink name" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,5,0,20"/>
+
+            <!-- Dynamic Bottle Rating -->
+            <ItemsControl ItemsSource="{Binding Bottles}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding ImageSource}" Width="40" Height="80" Margin="5"
+                               Tapped="Bottle_Click"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Rate Button -->
+            <Button Content="Rate" Background="Black" Foreground="White" FontSize="18" Padding="10,5"
+                    HorizontalAlignment="Center" Width="300" Margin="0,20,0,0" BorderThickness="0"
+                    CornerRadius="10"/>
+
+        </StackPanel>
+    </Grid>
+</Window>

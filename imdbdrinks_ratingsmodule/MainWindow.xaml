@@ -63,5 +63,25 @@
             <Button Content="Add Review" Click="AddReview_Click" Margin="0,0,10,0"/>
         </StackPanel>
 
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,30,0,40">
+            <!--Button for Rating-->
+            <TextBlock Text="Your Rating" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Image Source="Assets/bottle.png" Width="30" Height="60" Margin="0,0,5,0"/>
+                <Button Content="Rate" Click ="AddRating_Click" FontWeight="Bold"  Padding="10,5"/>
+            </StackPanel>
+            
+            <!--Button for average Rating-->
+            <TextBlock Text="IMDb Rating" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="30,10,0,0">
+                <Image Source="Assets/FullBottle.png" Width="30" Height="60" Margin="0,10,0,0"/>
+                <TextBlock Text="8.4/10" FontWeight ="Bold" FontSize="24" />
+            </StackPanel>
+
+        </StackPanel>
+
+
     </Grid>
 </Window>
