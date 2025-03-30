@@ -48,7 +48,7 @@ namespace imdbdrinks_ratingsmodule
         private void AddRating_Click(object sender, RoutedEventArgs e)
         {
 
-           var ratingWindow = new RatingWindow();
+           var ratingWindow = new RatingWindow(ViewModel);
             ratingWindow.Activate();
         }
        

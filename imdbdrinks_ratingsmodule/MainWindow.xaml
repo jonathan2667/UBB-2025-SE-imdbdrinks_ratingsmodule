@@ -25,7 +25,7 @@
         <StackPanel Grid.Row="1">
             <TextBlock Text="Ratings" FontSize="20" FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold"
                 Margin="20,20,0,10"/>
-            <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=OneWay}"
+            <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=TwoWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedRating, Mode=TwoWay}">
 
                 <ListView.ItemTemplate>
@@ -40,18 +40,36 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
-        
-        <!--Average Rating + User Rating-->
-        <StackPanel Orientation="Vertical" Grid.Row="2" HorizontalAlignment="Center">
-            <TextBlock Text="Average Rating" FontFamily="{StaticResource FontFamily}" FontSize="16" FontWeight="Bold"
-                Margin="0,0,0,5"/>
-            <StackPanel Orientation="Horizontal" >
-                <Image Source="/Assets/image 7.png" HorizontalAlignment="Left" Margin="20,0,10,0"/>
-                <TextBlock FontFamily="{StaticResource FontFamily}" FontSize="20px" HorizontalAlignment="Right" 
-                    VerticalAlignment="Center" Text="{x:Bind ViewModel.AverageRating, Mode=OneWay}" />
+
+        <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-50,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="50"/>
+                <!-- Spacing -->
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Average Rating Section -->
+            <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Center">
+                <TextBlock Text="Average Rating" FontFamily="{StaticResource FontFamily}" FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/FullBottle.png" Width="18"  HorizontalAlignment="Left" Margin="20,0,10,0"/>
+                    <TextBlock FontFamily="{StaticResource FontFamily}" FontSize="20px" VerticalAlignment="Center" 
+                           Text="{x:Bind ViewModel.AverageRating, Mode=OneWay}" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-       
+
+            <!-- Your Rating Section -->
+            <StackPanel Orientation="Vertical" Grid.Column="2" HorizontalAlignment="Center">
+                <TextBlock Text="Your Rating" FontFamily="{StaticResource FontFamily}" FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Bottle.png" Width ="18" HorizontalAlignment="Left" Margin="20,0,10,0"/>
+                    <Button Content="Rate" Click="AddRating_Click" FontWeight="Bold" Padding="10,5"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+
         <!-- Reviews Section -->
         <Grid Grid.Row="3">
             <Grid.RowDefinitions>
@@ -85,24 +103,7 @@
             </ListView>
         </Grid>
 
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,30,0,40">
-            <!--Button for Rating-->
-            <TextBlock Text="Your Rating" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image Source="Assets/bottle.png" Width="30" Height="60" Margin="0,0,5,0"/>
-                <Button Content="Rate" Click ="AddRating_Click" FontWeight="Bold"  Padding="10,5"/>
-            </StackPanel>
-            
-            <!--Button for average Rating-->
-            <TextBlock Text="IMDb Rating" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="30,10,0,0">
-                <Image Source="Assets/FullBottle.png" Width="30" Height="60" Margin="0,10,0,0"/>
-                <TextBlock Text="8.4/10" FontWeight ="Bold" FontSize="24" />
-            </StackPanel>
-
-        </StackPanel>
 
 
     </Grid>

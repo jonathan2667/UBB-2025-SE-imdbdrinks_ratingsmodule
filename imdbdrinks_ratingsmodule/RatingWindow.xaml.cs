@@ -1,6 +1,9 @@
+using imdbdrinks_ratingsmodule.Domain;
+using imdbdrinks_ratingsmodule.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -11,12 +14,13 @@ namespace imdbdrinks_ratingsmodule
         public ObservableCollection<Bottle> Bottles { get; set; }
         public int ratingScore { get; set; }
 
-        private string emptyBottlePath = "ms-appx:///Assets/bottle.png";
+        private string emptyBottlePath = "ms-appx:///Assets/Bottle.png";
         private string filledBottlePath = "ms-appx:///Assets/FullBottle.png";
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private RatingViewModel _ratingViewModel;
 
-        public RatingWindow()
+        public RatingWindow(RatingViewModel viewModel)
         {
             this.InitializeComponent();
             Bottles = new ObservableCollection<Bottle>();
@@ -28,6 +32,7 @@ namespace imdbdrinks_ratingsmodule
             }
 
             rootGrid.DataContext = this;
+            _ratingViewModel = viewModel;
         }
 
         private void Bottle_Click(object sender, TappedRoutedEventArgs e)
@@ -40,8 +45,19 @@ namespace imdbdrinks_ratingsmodule
                 {
                     Bottles[i].ImageSource = i <= index ? filledBottlePath : emptyBottlePath;
                 }
-                ratingScore = index;
+                ratingScore = index + 1;
             }
+        }
+
+        private void RateButton_Click(object sender, RoutedEventArgs e)
+        {
+            Rating rating = new Rating();
+            rating.ProductId = 100; // mock value , should be replaced with actual product id
+            rating.RatingValue = ratingScore;
+            rating.UserId = _ratingViewModel.Ratings.Count + 1; // mock value , should be replaced with actual user id
+
+            _ratingViewModel.AddRating(rating);
+            this.Close();
         }
     }
 
@@ -60,4 +76,5 @@ namespace imdbdrinks_ratingsmodule
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
+
 }

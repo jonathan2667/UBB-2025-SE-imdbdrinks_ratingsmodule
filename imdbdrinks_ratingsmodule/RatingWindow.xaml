@@ -33,7 +33,7 @@
             <!-- Rate Button -->
             <Button Content="Rate" Background="Black" Foreground="White" FontSize="18" Padding="10,5"
                     HorizontalAlignment="Center" Width="300" Margin="0,20,0,0" BorderThickness="0"
-                    CornerRadius="10"/>
+                    CornerRadius="10" Click="RateButton_Click"/>
 
         </StackPanel>
     </Grid>
