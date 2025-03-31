@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
@@ -14,10 +14,15 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="apikey.json" />
+    <None Remove="RatingWindow.xaml" />
     <None Remove="ReviewWindow.xaml" />
   </ItemGroup>
+	<PropertyGroup>
+		<WindowsSdkPackageVersion>10.0.19041.38</WindowsSdkPackageVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
+
+	<ItemGroup>
     <Content Include="apikey.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -51,6 +56,11 @@
     <PackageReference Include="System.Net.Http.Json" Version="9.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="RatingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="ReviewWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -76,5 +86,6 @@
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>

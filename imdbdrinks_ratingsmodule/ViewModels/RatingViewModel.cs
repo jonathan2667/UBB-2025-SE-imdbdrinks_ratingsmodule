@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using imdbdrinks_ratingsmodule.Domain;
 using imdbdrinks_ratingsmodule.Services;
@@ -30,7 +32,6 @@ namespace imdbdrinks_ratingsmodule.ViewModels
             get => _selectedRating;
             set
             {
-                // Check for a change to avoid infinite loops from TwoWay binding
                 if (_selectedRating != value)
                 {
                     _selectedRating = value;
@@ -45,9 +46,10 @@ namespace imdbdrinks_ratingsmodule.ViewModels
             get => _averageRating;
             set
             {
-                if (_averageRating != value)
+                double roundedValue = Math.Round(value, 2);
+                if (_averageRating != roundedValue)
                 {
-                    _averageRating = value;
+                    _averageRating = roundedValue;
                     OnPropertyChanged();
                 }
             }
@@ -63,7 +65,8 @@ namespace imdbdrinks_ratingsmodule.ViewModels
         {
             var ratings = _ratingService.GetRatingsByProduct(productId);
             Ratings.Clear();
-            foreach (var rating in ratings)
+            // Reverse the order so that the newest rating appears first
+            foreach (var rating in ratings.Reverse())
             {
                 Ratings.Add(rating);
             }
@@ -73,6 +76,7 @@ namespace imdbdrinks_ratingsmodule.ViewModels
         public void AddRating(Rating rating)
         {
             _ratingService.CreateRating(rating);
+            // Reload the ratings so that the new one appears at the top
             LoadRatingsForProduct(rating.ProductId);
         }
 
