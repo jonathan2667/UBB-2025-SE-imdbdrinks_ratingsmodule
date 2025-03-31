@@ -24,7 +24,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Image Source="{Binding ImageSource}" Width="40" Height="80" Margin="5"
+                        <Image Source="{Binding ImageSource}" Width="40" Height="80" Margin="20"
                                Tapped="Bottle_Click"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

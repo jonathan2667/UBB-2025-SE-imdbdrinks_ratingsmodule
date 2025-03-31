@@ -25,7 +25,7 @@ namespace imdbdrinks_ratingsmodule
             this.InitializeComponent();
             Bottles = new ObservableCollection<Bottle>();
 
-            // Initialize 10 bottles in an empty state
+            // Initialize 5 bottles in an empty state
             for (int i = 0; i < 5; i++)
             {
                 Bottles.Add(new Bottle { ImageSource = emptyBottlePath });
@@ -51,10 +51,17 @@ namespace imdbdrinks_ratingsmodule
 
         private void RateButton_Click(object sender, RoutedEventArgs e)
         {
+            // If no bottle was clicked, ratingScore will be 0. Exit the method to prevent an error.
+            if (ratingScore == 0)
+            {
+                // Optionally, show a message to the user here.
+                return;
+            }
+
             Rating rating = new Rating();
-            rating.ProductId = 100; // mock value , should be replaced with actual product id
+            rating.ProductId = 100; // mock value, should be replaced with actual product id
             rating.RatingValue = ratingScore;
-            rating.UserId = _ratingViewModel.Ratings.Count + 1; // mock value , should be replaced with actual user id
+            rating.UserId = _ratingViewModel.Ratings.Count + 1; // mock value, should be replaced with actual user id
 
             _ratingViewModel.AddRating(rating);
             this.Close();
@@ -76,5 +83,4 @@ namespace imdbdrinks_ratingsmodule
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
-
 }
