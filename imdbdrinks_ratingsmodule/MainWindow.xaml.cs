@@ -48,15 +48,29 @@ namespace imdbdrinks_ratingsmodule
 
         private void AddReview_Click(object sender, RoutedEventArgs e)
         {
-            var reviewWindow = new ReviewWindow(ViewModel, ReviewVM);
-            reviewWindow.Activate();
+            if (ViewModel.SelectedRating != null)
+            {
+                var reviewWindow = new ReviewWindow(ViewModel, ReviewVM);
+                reviewWindow.Activate();
+            }
+            else
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = "No Rating Selected",
+                    Content = "Please select a rating before adding a review.",
+                    CloseButtonText = "OK"
+                };
+                dialog.ShowAsync();
+            }
+            return;
 
         }
 
         private void AddRating_Click(object sender, RoutedEventArgs e)
         {
 
-           var ratingWindow = new RatingWindow(ViewModel);
+            var ratingWindow = new RatingWindow(ViewModel);
             ratingWindow.Activate();
         }
      
