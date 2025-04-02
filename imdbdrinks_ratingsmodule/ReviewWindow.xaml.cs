@@ -38,25 +38,25 @@ namespace imdbdrinks_ratingsmodule
 
         private void SubmitReview_Click(object sender, RoutedEventArgs e)
         {
-            // Ensure a rating is selected.
-            if (ViewModel.SelectedRating == null)
-                return;
-
             // Get the review text.
             string content = ReviewTextBox.Text;
             if (!string.IsNullOrWhiteSpace(content))
             {
+                // Determine the rating ID.
+                // If no rating is selected, use a default value (e.g., 0).
+                long ratingId = ViewModel.SelectedRating != null ? ViewModel.SelectedRating.RatingId : 0;
+
                 // Create a new review.
                 var newReview = new Review
                 {
-                    RatingId = ViewModel.SelectedRating.RatingId,
-                    UserId = 999,
+                    RatingId = ratingId,
+                    UserId = 999, // Update with the actual user id if needed.
                     Content = content,
                     IsActive = true
-                    // CreationDate will be set in the service.
+                    // CreationDate can be set here or in the service layer.
                 };
 
-                // Add the review via the ViewModel.
+                // Add the review via the Review ViewModel.
                 ReviewVM.AddReview(newReview);
 
                 // Clear the TextBox.
@@ -64,6 +64,7 @@ namespace imdbdrinks_ratingsmodule
             }
             
         }
+
 
         private void GenerateAIReview_Click(object sender, RoutedEventArgs e)
         {
