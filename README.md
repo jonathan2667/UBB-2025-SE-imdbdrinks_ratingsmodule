@@ -29,6 +29,7 @@ The Ratings Module requires a MySQL database for storing and retrieving ratings 
 2. Run the installer and choose the **Custom** setup.
 3. Install **MySQL Server** (version 8.0.41) and **MySQL Workbench** (version 8.0.40).
    - In MySQL Workbench, click the green button to push **MySQL Server** and **MySQL Workbench** on the right side.
+   - For the password, it is important to use `1234`, otherwise you will have to change the SQL connections credentials in the project. 
 4. Once MySQL Workbench is open, locate your SQL connection and click to open it.
 5. On the left panel in MySQL Workbench, right-click the **Schemas** section and select **Create Schema** (by pressing right-click) and preferably name it 'imdb'.
 6. Open a new SQL query tab (or use an existing one). Double-click the `imdb` database schema on the left so that the query executes in the correct context, then paste and execute the SQL code provided below.
