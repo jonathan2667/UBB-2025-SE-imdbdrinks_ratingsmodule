@@ -29,7 +29,8 @@
                Margin="20,20,0,10"/>
             <!-- ListView with fixed height and forced scrollbar -->
             <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=TwoWay}"
-              SelectedItem="{x:Bind ViewModel.SelectedRating, Mode=TwoWay}"
+         
+                SelectionMode="None"
               Height="700"
               ScrollViewer.VerticalScrollBarVisibility="Visible"
               ScrollViewer.VerticalScrollMode="Enabled">

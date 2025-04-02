@@ -49,6 +49,24 @@ namespace imdbdrinks_ratingsmodule
             }
         }
 
+        //private void RateButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    // If no bottle was clicked, ratingScore will be 0. Exit the method to prevent an error.
+        //    if (ratingScore == 0)
+        //    {
+        //        // Optionally, show a message to the user here.
+        //        return;
+        //    }
+
+        //    Rating rating = new Rating();
+        //    rating.ProductId = 100; // mock value, should be replaced with actual product id
+        //    rating.RatingValue = ratingScore;
+        //    rating.UserId = _ratingViewModel.Ratings.Count + 1; // mock value, should be replaced with actual user id
+
+        //    _ratingViewModel.AddRating(rating);
+        //    this.Close();
+        //}
+
         private void RateButton_Click(object sender, RoutedEventArgs e)
         {
             // If no bottle was clicked, ratingScore will be 0. Exit the method to prevent an error.
@@ -58,14 +76,26 @@ namespace imdbdrinks_ratingsmodule
                 return;
             }
 
-            Rating rating = new Rating();
-            rating.ProductId = 100; // mock value, should be replaced with actual product id
-            rating.RatingValue = ratingScore;
-            rating.UserId = _ratingViewModel.Ratings.Count + 1; // mock value, should be replaced with actual user id
+            Rating rating = new Rating
+            {
+                ProductId = 100, // mock value, should be replaced with actual product id
+                RatingValue = ratingScore,
+                UserId = _ratingViewModel.Ratings.Count + 1 // mock value, should be replaced with actual user id
+            };
 
             _ratingViewModel.AddRating(rating);
+
+            // Remove the line that resets the selected rating:
+            // if (_ratingViewModel.Ratings != null && _ratingViewModel.Ratings.Count > 0)
+            // {
+            //     _ratingViewModel.SelectedRating = _ratingViewModel.Ratings[0];
+            // }
+
             this.Close();
         }
+
+
+
     }
 
     public class Bottle : INotifyPropertyChanged
