@@ -51,6 +51,13 @@ namespace imdbdrinks_ratingsmodule
             reviewWindow.Activate();
 
         }
+
+        private void AddRating_Click(object sender, RoutedEventArgs e)
+        {
+
+           var ratingWindow = new RatingWindow(ViewModel);
+            ratingWindow.Activate();
+        }
        
     }
 }

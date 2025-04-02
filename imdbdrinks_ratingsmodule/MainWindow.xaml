@@ -11,57 +11,116 @@
 
     <Grid Padding="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.7*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Ratings and Reviews for Product 100" FontSize="24" Margin="0,0,0,10" Grid.Row="0" />
-        <Grid Grid.Row="1">
+
+        <!--Title-->
+        <TextBlock Text="Ratings and Reviews for Product 100" FontSize="24" FontWeight="Bold" FontFamily="{StaticResource FontFamily}"
+            VerticalAlignment="Center" Margin="20,0,0,0" Grid.Row="0"/>
+
+        <StackPanel Grid.Row="1" Width="300" HorizontalAlignment="Left">
+            <TextBlock Text="Ratings" 
+               FontSize="20" 
+               FontFamily="{StaticResource FontFamily}" 
+               FontWeight="SemiBold"
+               Margin="20,20,0,10"/>
+            <!-- ListView with fixed height and forced scrollbar -->
+            <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=TwoWay}"
+         
+                SelectionMode="None"
+              Height="700"
+              ScrollViewer.VerticalScrollBarVisibility="Visible"
+              ScrollViewer.VerticalScrollMode="Enabled">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="domain:Rating">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Rating:" 
+                               FontFamily="{StaticResource FontFamily}" 
+                               Margin="0,0,5,0"/>
+                            <TextBlock Text="{x:Bind RatingValue}" 
+                               FontFamily="{StaticResource FontFamily}" 
+                               FontWeight="SemiBold"/>
+                            <TextBlock Text=" by User " 
+                               FontFamily="{StaticResource FontFamily}"/>
+                            <TextBlock Text="{x:Bind UserId}" 
+                               FontFamily="{StaticResource FontFamily}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+
+
+
+
+
+        <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-50,0,20">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="50"/>
+                <!-- Spacing -->
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <!-- Ratings Section -->
-            <StackPanel Grid.Column="0">
-                <TextBlock Text="Ratings" FontSize="18" Margin="0,0,0,5"/>
-                <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=OneWay}"
-                          SelectedItem="{x:Bind ViewModel.SelectedRating, Mode=TwoWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="domain:Rating">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Rating: " />
-                                <TextBlock Text="{x:Bind RatingValue}" />
-                                <TextBlock Text=" by User " />
-                                <TextBlock Text="{x:Bind UserId}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <TextBlock Text="Average Rating:" FontWeight="Bold" Margin="0,10,0,0"/>
-                <TextBlock Text="{x:Bind ViewModel.AverageRating, Mode=OneWay}" />
+
+            <!-- Average Rating Section -->
+            <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Center">
+                <TextBlock Text="Average Rating" FontFamily="{StaticResource FontFamily}" FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/FullBottle.png" Width="18"  HorizontalAlignment="Left" Margin="20,0,10,0"/>
+                    <TextBlock FontFamily="{StaticResource FontFamily}" FontSize="20px" VerticalAlignment="Center" 
+                           Text="{x:Bind ViewModel.AverageRating, Mode=OneWay}" />
+                </StackPanel>
             </StackPanel>
-            <!-- Reviews Section -->
-            <StackPanel Grid.Column="2">
-                <TextBlock Text="Reviews" FontSize="18" Margin="0,0,0,5"/>
-                <ListView ItemsSource="{x:Bind ReviewVM.Reviews, Mode=OneWay}"
-                          SelectedItem="{x:Bind ReviewVM.SelectedReview, Mode=TwoWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="domain:Review">
-                            <StackPanel>
-                                <TextBlock Text="{x:Bind Content}" TextWrapping="Wrap"/>
-                                <TextBlock Text="{x:Bind CreationDate}" FontSize="10" Foreground="Gray"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+
+            <!-- Your Rating Section -->
+            <StackPanel Orientation="Vertical" Grid.Column="2" HorizontalAlignment="Center">
+                <TextBlock Text="Your Rating" FontFamily="{StaticResource FontFamily}" FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Bottle.png" Width ="18" HorizontalAlignment="Left" Margin="20,0,10,0"/>
+                    <Button Content="Rate" Click="AddRating_Click" FontWeight="Bold" Padding="10,5"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
 
 
-        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,10,0,0">
-            <Button Content="Add Review" Click="AddReview_Click" Margin="0,0,10,0"/>
-        </StackPanel>
+        <!-- Reviews Section -->
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Reviews" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                FontFamily="{StaticResource FontFamily}" FontSize="20" FontWeight="SemiBold"
+                Margin="20,0,0,0"/>
+
+            <Button Grid.Row="0" Grid.Column="1" Content="add review" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                Height="30" Width="150" Click="AddReview_Click" Margin="0,0,20,0" Padding="0,0,0,0" BorderThickness="0" 
+                Foreground="#FFFFEE" Background="#313131" FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold" />
+
+            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{x:Bind ReviewVM.Reviews, Mode=OneWay}"
+                SelectedItem="{x:Bind ReviewVM.SelectedReview, Mode=TwoWay}" Background="#cacaca">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="domain:Review">
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind Content}" TextWrapping="Wrap" FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold"/>
+                            <TextBlock Text="{x:Bind CreationDate}" FontSize="12" Foreground="#3d3d3d" FontFamily="{StaticResource FontFamily}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
+
+
 
     </Grid>
 </Window>
