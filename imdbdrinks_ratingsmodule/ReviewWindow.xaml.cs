@@ -62,6 +62,7 @@ namespace imdbdrinks_ratingsmodule
                 // Clear the TextBox.
                 ReviewTextBox.Text = string.Empty;
             }
+            
         }
 
         private void GenerateAIReview_Click(object sender, RoutedEventArgs e)

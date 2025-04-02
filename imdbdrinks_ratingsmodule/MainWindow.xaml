@@ -21,36 +21,56 @@
         <TextBlock Text="Ratings and Reviews for Product 100" FontSize="24" FontWeight="Bold" FontFamily="{StaticResource FontFamily}"
             VerticalAlignment="Center" Margin="20,0,0,0" Grid.Row="0"/>
 
-        <StackPanel Grid.Row="1" Width="300" HorizontalAlignment="Left">
+
+
+        <!-- Ratings Section - Adjusted Text Version -->
+        <Grid Grid.Row="1" Margin="10,0,10,0" HorizontalAlignment="Left" Width="260">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
             <TextBlock Text="Ratings" 
                FontSize="20" 
                FontFamily="{StaticResource FontFamily}" 
                FontWeight="SemiBold"
-               Margin="20,20,0,10"/>
-            <!-- ListView with fixed height and forced scrollbar -->
+               Margin="0,20,0,10"
+               Grid.Row="0"/>
+
+            <!-- Adjusted ListView with full "by User X" text -->
             <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=TwoWay}"
               SelectedItem="{x:Bind ViewModel.SelectedRating, Mode=TwoWay}"
-              Height="700"
-              ScrollViewer.VerticalScrollBarVisibility="Visible"
-              ScrollViewer.VerticalScrollMode="Enabled">
+              Grid.Row="1"
+              ScrollViewer.VerticalScrollBarVisibility="Auto"
+              ScrollViewer.VerticalScrollMode="Enabled"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+              MinHeight="100"
+              MaxHeight="400">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="0,5"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="domain:Rating">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Margin="5,0">
                             <TextBlock Text="Rating:" 
                                FontFamily="{StaticResource FontFamily}" 
                                Margin="0,0,5,0"/>
                             <TextBlock Text="{x:Bind RatingValue}" 
                                FontFamily="{StaticResource FontFamily}" 
-                               FontWeight="SemiBold"/>
-                            <TextBlock Text=" by User " 
-                               FontFamily="{StaticResource FontFamily}"/>
+                               FontWeight="SemiBold"
+                               MinWidth="20"/>
+                            <TextBlock Text="by User" 
+                               FontFamily="{StaticResource FontFamily}"
+                               Margin="5,0,3,0"/>
                             <TextBlock Text="{x:Bind UserId}" 
                                FontFamily="{StaticResource FontFamily}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackPanel>
+        </Grid>
 
 
 
