@@ -19,7 +19,7 @@ namespace imdbdrinks_ratingsmodule
             this.InitializeComponent();
 
             // Unique connection string for MySql database (change accordingly)
-            string connection = "server=localhost;database=imdb;user=root;password=Razvan2005;";
+            string connection = "server=localhost;database=imdb;user=root;password=yourpassword;";
 
             var reviewRepo = new DatabaseReviewRepository(connection);
             var ratingRepo = new DatabaseRatingRepository(connection);
