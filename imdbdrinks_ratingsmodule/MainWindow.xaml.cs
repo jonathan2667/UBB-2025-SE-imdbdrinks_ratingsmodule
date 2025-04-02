@@ -2,7 +2,8 @@ using Microsoft.UI.Xaml;
 using imdbdrinks_ratingsmodule.Repositories;
 using imdbdrinks_ratingsmodule.Services;
 using imdbdrinks_ratingsmodule.ViewModels;
-using imdbdrinks_ratingsmodule.Domain; 
+using imdbdrinks_ratingsmodule.Domain;
+using Microsoft.UI.Xaml.Controls;
 namespace imdbdrinks_ratingsmodule
 {
 
@@ -18,7 +19,7 @@ namespace imdbdrinks_ratingsmodule
             this.InitializeComponent();
 
             // Unique connection string for MySql database (change accordingly)
-            string connection = "server=localhost;database=imdb;user=root;password=*yourpasswordherepleaseandthankyou*;";
+            string connection = "server=localhost;database=imdb;user=root;password=Razvan2005;";
 
             var reviewRepo = new DatabaseReviewRepository(connection);
             var ratingRepo = new DatabaseRatingRepository(connection);
@@ -58,6 +59,23 @@ namespace imdbdrinks_ratingsmodule
            var ratingWindow = new RatingWindow(ViewModel);
             ratingWindow.Activate();
         }
-       
+     
+        private void RatingSelection_Changed(object sender, RoutedEventArgs e)
+        {
+            var listView = sender as ListView;
+
+            if (listView != null)
+            {
+                var selectedIndex = listView.SelectedIndex;
+
+                if (selectedIndex >= 0)
+                {
+                    var selectedRating = ViewModel.Ratings[selectedIndex];
+                    ViewModel.SelectedRating = selectedRating;
+                    ReviewVM.LoadReviewsForRating(selectedRating.RatingId);
+                }
+            }
+        }
+
     }
 }

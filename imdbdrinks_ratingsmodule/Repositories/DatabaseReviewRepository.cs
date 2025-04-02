@@ -135,6 +135,7 @@ namespace imdbdrinks_ratingsmodule.Repositories
 
                     if (!exists)
                     {
+                        command.Parameters.Clear();
                         command.CommandText = "INSERT INTO Reviews (RatingId, UserId, Content, CreationDate, IsActive) VALUES (@RatingId, @UserId, @Content, @CreationDate, @IsActive)";
                         command.Parameters.Add(new MySqlParameter("@RatingId", review.RatingId));
                         command.Parameters.Add(new MySqlParameter("@UserId", review.UserId));
@@ -146,6 +147,7 @@ namespace imdbdrinks_ratingsmodule.Repositories
                     }
                     else
                     {
+                        command.Parameters.Clear();
                         command.CommandText = "UPDATE Reviews SET RatingId = @RatingId, UserId = @UserId, Content = @Content, CreationDate = @CreationDate, IsActive = @IsActive WHERE ReviewId = @ReviewId";
                         command.Parameters.Add(new MySqlParameter("@ReviewId", review.ReviewId));
                         command.Parameters.Add(new MySqlParameter("@RatingId", review.RatingId));
