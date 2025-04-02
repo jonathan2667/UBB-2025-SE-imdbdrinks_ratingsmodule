@@ -65,6 +65,7 @@ namespace imdbdrinks_ratingsmodule
         {
 
             var ratingWindow = new RatingWindow(ViewModel);
+            ViewModel.SelectedRating = null;
             ratingWindow.Activate();
         }
      
