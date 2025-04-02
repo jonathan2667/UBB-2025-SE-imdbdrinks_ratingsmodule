@@ -8,6 +8,15 @@ A self-contained MVVM-based Ratings & Reviews module for the IMDB Drinks applica
 - **User Reviews**: Allows users to submit and view reviews for different drinks.
 - **Rating System**: Enables users to rate drinks on a predefined scale.
 
+### Important Information
+
+It is important to know that a rating can have multiple reviews, but not the inverse.
+
+You must first select a rating and then add a review — really important.
+
+To see the reviews associated with each rating, select a new rating in the rating list view.
+
+
 ## Getting Started
 
 ### Installing MySQL
@@ -15,12 +24,17 @@ A self-contained MVVM-based Ratings & Reviews module for the IMDB Drinks applica
 The Ratings Module requires a MySQL database for storing and retrieving ratings data. Follow these steps to install and configure MySQL:
 
 #### Install MySQL Server
-  - Download the installer from the [MySQL Downloads page](https://dev.mysql.com/downloads/installer/).
-  - Run the installer and choose the *Custom* setup.
-  - Install MySql Server and MySql Workbench
-  - Leave the configuration for MySql Server as default and make sure you use an easy to remember password
-  - Open MySql Workbench and connect to your server
-  - Create a new schema(database), preferably name it 'imdb'
+
+1. Download the MySQL installer from the [MySQL Downloads page](https://dev.mysql.com/downloads/installer/). *(Installer size: 2.4M from the official MySQL site)*
+2. Run the installer and choose the **Custom** setup.
+3. Install **MySQL Server** (version 8.0.41) and **MySQL Workbench** (version 8.0.40).
+   - In MySQL Workbench, click the green button to push **MySQL Server** and **MySQL Workbench** on the right side.
+4. Once MySQL Workbench is open, locate your SQL connection and click to open it.
+5. On the left panel in MySQL Workbench, right-click the **Schemas** section and select **Create Schema** (by pressing right-click) and preferably name it 'imdb'.
+6. Open a new SQL query tab (or use an existing one). Double-click the `imdb` database schema on the left so that the query executes in the correct context, then paste and execute the SQL code provided below.
+7. Refresh the schema view. You should now see two new tables.
+8. Update your password in `MainWindow.xaml.cs`; if your database is not named `imdb` modify the schema name as needed.
+9. To reset your database, first drop the `reviews` table, then drop the `ratings` table using an SQL query.
 
 ### Creating Tables
 
