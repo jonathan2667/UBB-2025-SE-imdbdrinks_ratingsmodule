@@ -8,7 +8,10 @@
     xmlns:domain="using:imdbdrinks_ratingsmodule.Domain"
     mc:Ignorable="d"
     Title="imdbdrinks‑ratingsmodule">
+    
+    
 
+    
     <Grid Padding="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.7*"/>
@@ -30,7 +33,8 @@
             <!-- ListView with fixed height and forced scrollbar -->
             <ListView ItemsSource="{x:Bind ViewModel.Ratings, Mode=TwoWay}"
          
-                SelectionMode="None"
+                SelectionMode="Single"
+                SelectionChanged="RatingSelection_Changed"
               Height="700"
               ScrollViewer.VerticalScrollBarVisibility="Visible"
               ScrollViewer.VerticalScrollMode="Enabled">
@@ -64,7 +68,10 @@
                 <!-- Spacing -->
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-
+            <ContentDialog x:Name="NoRatingSelectedDialog"
+                Title="No Rating Selected"
+                Content="Please select a rating before adding a review."
+                CloseButtonText="OK" />
             <!-- Average Rating Section -->
             <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Center">
                 <TextBlock Text="Average Rating" FontFamily="{StaticResource FontFamily}" FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
