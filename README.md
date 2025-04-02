@@ -31,12 +31,12 @@ CREATE TABLE `ratings` (
   `RatingID` int NOT NULL AUTO_INCREMENT,
   `ProductID` int NOT NULL,
   `UserID` int NOT NULL,
-  `RatingValue` varchar(45) DEFAULT NULL,
+  `RatingValue` double DEFAULT NULL,
   `RatingDate` datetime DEFAULT NULL,
   `IsActive` tinyint DEFAULT NULL,
   PRIMARY KEY (`RatingID`),
   UNIQUE KEY `ratingid_UNIQUE` (`RatingID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 CREATE TABLE `reviews` (
