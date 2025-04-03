@@ -25,6 +25,10 @@
                     Foreground="#FFFFEE" Background="#313131" HorizontalAlignment="Right" 
                     FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold"/>
             </StackPanel>
-        </StackPanel> 
+        </StackPanel>
+        <ContentDialog x:Name="EmptyReviewDialog"
+    Title="Empty Review"
+    Content="Please enter review text before submitting."
+    CloseButtonText="OK" />
     </Grid>
 </Window>
