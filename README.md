@@ -23,7 +23,7 @@ To see the reviews associated with each rating, select a new rating in the ratin
 
 ## Use case diagram
 
-[Diagram](./imdbdrinks_ratingsmodule/Diagrams/useCaseDiagramFinal.png)
+[Diagram](./imdbdrinks_ratingsmodule/Diagrams/UseCaseDiagramFinal.png)
 
 
 ## Getting Started
