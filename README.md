@@ -21,6 +21,10 @@ To see the reviews associated with each rating, select a new rating in the ratin
 
 [Watch demo video](./imdbdrinks_ratingsmodule/Assets/ISS_imdb.gif)
 
+## Use case diagram
+
+[Diagram](./imdbdrinks_ratingsmodule/Diagrams/useCaseDiagramFinal.png)
+
 
 ## Getting Started
 
