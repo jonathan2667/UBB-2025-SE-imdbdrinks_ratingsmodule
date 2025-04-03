@@ -17,6 +17,11 @@ You must first select a rating and then add a review — really important.
 To see the reviews associated with each rating, select a new rating in the rating list view.
 
 
+## Demo
+
+[Watch demo video](./imdbdrinks_ratingsmodule/Assets/ISS_imdb.mp4)
+
+
 ## Getting Started
 
 ### Installing MySQL
