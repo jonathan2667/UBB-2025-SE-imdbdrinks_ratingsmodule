@@ -36,10 +36,18 @@ namespace imdbdrinks_ratingsmodule
             ReviewVM = reviewVM;
         }
 
-        private void SubmitReview_Click(object sender, RoutedEventArgs e)
+        private async void SubmitReview_Click(object sender, RoutedEventArgs e)
         {
             // Get the review text.
             string content = ReviewTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                // Show error dialog
+                await EmptyReviewDialog.ShowAsync();
+                return; // Exit the method without proceeding
+            }
+
             if (!string.IsNullOrWhiteSpace(content))
             {
                 // Determine the rating ID.
