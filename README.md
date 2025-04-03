@@ -19,7 +19,7 @@ To see the reviews associated with each rating, select a new rating in the ratin
 
 ## Demo
 
-[Watch demo video](./imdbdrinks_ratingsmodule/Assets/ISS_imdb.mp4)
+[Watch demo video](./imdbdrinks_ratingsmodule/Assets/ISS_imdb.gif)
 
 
 ## Getting Started
