@@ -4,10 +4,10 @@ namespace imdbdrinks_ratingsmodule.Domain
 {
     public class Rating
     {
-        public long RatingId { get; set; }
-        public long ProductId { get; set; } // Reference to the product (for future integration)
-        public long UserId { get; set; }
-        public int RatingValue { get; set; } // 1 to 5 stars
+        public int RatingId { get; set; }
+        public int ProductId { get; set; } // Reference to the product (for future integration)
+        public int UserId { get; set; }
+        public double RatingValue { get; set; } // 1 to 5 stars
         public DateTime RatingDate { get; set; }
         public bool IsActive { get; set; }
 

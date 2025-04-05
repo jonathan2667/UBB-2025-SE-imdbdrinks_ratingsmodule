@@ -1,8 +1,8 @@
 ﻿using imdbdrinks_ratingsmodule.Domain;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace imdbdrinks_ratingsmodule.Repositories
 {
@@ -17,12 +17,12 @@ namespace imdbdrinks_ratingsmodule.Repositories
 
         public void Delete(long ratingId)
         {
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand("DELETE FROM Ratings WHERE RatingId = @RatingId", connection))
+                using (var command = new SqlCommand("DELETE FROM Ratings WHERE RatingId = @RatingId", connection))
                 {
-                    command.Parameters.Add(new MySqlParameter("@RatingId", ratingId));
+                    command.Parameters.AddWithValue("@RatingId", ratingId);
                     command.ExecuteNonQuery();
                 }
             }
@@ -32,25 +32,23 @@ namespace imdbdrinks_ratingsmodule.Repositories
         {
             var ratings = new List<Rating>();
 
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand("SELECT * FROM Ratings", connection))
+                using (var command = new SqlCommand("SELECT * FROM Ratings", connection))
+                using (var reader = command.ExecuteReader())
                 {
-                    using (var reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        ratings.Add(new Rating
                         {
-                            ratings.Add(new Rating
-                            {
-                                RatingId = reader.GetInt64("RatingId"),
-                                ProductId = reader.GetInt64("ProductId"),
-                                UserId = reader.GetInt64("UserId"),
-                                RatingValue = reader.GetInt32("RatingValue"),
-                                RatingDate = reader.GetDateTime("RatingDate"),
-                                IsActive = reader.GetBoolean("IsActive")
-                            });
-                        }
+                            RatingId = reader.GetInt32(reader.GetOrdinal("RatingId")),
+                            ProductId = reader.GetInt32(reader.GetOrdinal("ProductId")),
+                            UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                            RatingValue = reader.GetInt32(reader.GetOrdinal("RatingValue")),
+                            RatingDate = reader.GetDateTime(reader.GetOrdinal("RatingDate")),
+                            IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive"))
+                        });
                     }
                 }
             }
@@ -60,30 +58,30 @@ namespace imdbdrinks_ratingsmodule.Repositories
 
         public Rating FindById(long ratingId)
         {
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand("SELECT * FROM Ratings WHERE RatingId = @RatingId", connection))
+                using (var command = new SqlCommand("SELECT * FROM Ratings WHERE RatingId = @RatingId", connection))
                 {
-                    command.Parameters.Add(new MySqlParameter("@RatingId", ratingId));
-
+                    command.Parameters.AddWithValue("@RatingId", ratingId);
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
                             return new Rating
                             {
-                                RatingId = reader.GetInt64("RatingId"),
-                                ProductId = reader.GetInt64("ProductId"),
-                                UserId = reader.GetInt64("UserId"),
-                                RatingValue = reader.GetInt32("RatingValue"),
-                                RatingDate = reader.GetDateTime("RatingDate"),
-                                IsActive = reader.GetBoolean("IsActive")
+                                RatingId = reader.GetInt32(reader.GetOrdinal("RatingId")),
+                                ProductId = reader.GetInt32(reader.GetOrdinal("ProductId")),
+                                UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                RatingValue = reader.GetInt32(reader.GetOrdinal("RatingValue")),
+                                RatingDate = reader.GetDateTime(reader.GetOrdinal("RatingDate")),
+                                IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive"))
                             };
                         }
                     }
                 }
             }
+
             return null;
         }
 
@@ -91,12 +89,12 @@ namespace imdbdrinks_ratingsmodule.Repositories
         {
             var ratings = new List<Rating>();
 
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand("SELECT * FROM Ratings WHERE ProductId = @ProductId", connection))
+                using (var command = new SqlCommand("SELECT * FROM Ratings WHERE ProductId = @ProductId", connection))
                 {
-                    command.Parameters.Add(new MySqlParameter("@ProductId", productId));
+                    command.Parameters.AddWithValue("@ProductId", productId);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -104,12 +102,12 @@ namespace imdbdrinks_ratingsmodule.Repositories
                         {
                             ratings.Add(new Rating
                             {
-                                RatingId = reader.GetInt64("RatingId"),
-                                ProductId = reader.GetInt64("ProductId"),
-                                UserId = reader.GetInt64("UserId"),
-                                RatingValue = reader.GetInt32("RatingValue"),
-                                RatingDate = reader.GetDateTime("RatingDate"),
-                                IsActive = reader.GetBoolean("IsActive")
+                                RatingId = Convert.ToInt32(reader.GetInt32(reader.GetOrdinal("RatingId"))),
+                                ProductId = Convert.ToInt32(reader.GetInt32(reader.GetOrdinal("ProductId"))),
+                                UserId = Convert.ToInt32(reader.GetInt32(reader.GetOrdinal("UserId"))),
+                                RatingValue = reader.GetDouble(reader.GetOrdinal("RatingValue")),
+                                RatingDate = reader.GetDateTime(reader.GetOrdinal("RatingDate")),
+                                IsActive = Convert.ToBoolean(reader["IsActive"])
                             });
                         }
                     }
@@ -121,39 +119,47 @@ namespace imdbdrinks_ratingsmodule.Repositories
 
         public Rating Save(Rating rating)
         {
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand())
+                using (var command = new SqlCommand())
                 {
                     command.Connection = connection;
 
-                    // Check if the rating already exists
+                    // Check existence
                     command.CommandText = "SELECT COUNT(*) FROM Ratings WHERE RatingId = @RatingId";
-                    command.Parameters.Add(new MySqlParameter("@RatingId", rating.RatingId));
+                    command.Parameters.AddWithValue("@RatingId", rating.RatingId);
+
                     var exists = Convert.ToInt32(command.ExecuteScalar()) > 0;
+                    command.Parameters.Clear();
 
                     if (!exists)
                     {
-                        // Insert new rating
-                        command.CommandText = "INSERT INTO Ratings (ProductId, UserId, RatingValue, RatingDate, IsActive) VALUES (@ProductId, @UserId, @RatingValue, @RatingDate, @IsActive)";
-                        command.Parameters.Add(new MySqlParameter("@ProductId", rating.ProductId));
-                        command.Parameters.Add(new MySqlParameter("@UserId", rating.UserId));
-                        command.Parameters.Add(new MySqlParameter("@RatingValue", rating.RatingValue));
-                        command.Parameters.Add(new MySqlParameter("@RatingDate", rating.RatingDate));
-                        command.Parameters.Add(new MySqlParameter("@IsActive", rating.IsActive));
-                        command.ExecuteNonQuery();
-                        rating.RatingId = command.LastInsertedId;
+                        command.CommandText = @"
+                            INSERT INTO Ratings (ProductId, UserId, RatingValue, RatingDate, IsActive) 
+                            OUTPUT INSERTED.RatingId 
+                            VALUES (@ProductId, @UserId, @RatingValue, @RatingDate, @IsActive)";
+                        command.Parameters.AddWithValue("@ProductId", rating.ProductId);
+                        command.Parameters.AddWithValue("@UserId", rating.UserId);
+                        command.Parameters.AddWithValue("@RatingValue", rating.RatingValue);
+                        command.Parameters.AddWithValue("@RatingDate", rating.RatingDate);
+                        command.Parameters.AddWithValue("@IsActive", rating.IsActive);
+                        
+                        rating.RatingId = (int)command.ExecuteScalar();
                     }
                     else
                     {
-                        // Update existing rating
-                        command.CommandText = "UPDATE Ratings SET ProductId = @ProductId, UserId = @UserId, RatingValue = @RatingValue, RatingDate = @RatingDate, IsActive = @IsActive WHERE RatingId = @RatingId";
-                        command.Parameters.Add(new MySqlParameter("@ProductId", rating.ProductId));
-                        command.Parameters.Add(new MySqlParameter("@UserId", rating.UserId));
-                        command.Parameters.Add(new MySqlParameter("@RatingValue", rating.RatingValue));
-                        command.Parameters.Add(new MySqlParameter("@RatingDate", rating.RatingDate));
-                        command.Parameters.Add(new MySqlParameter("@IsActive", rating.IsActive));
+                        command.CommandText = @"
+                            UPDATE Ratings 
+                            SET ProductId = @ProductId, UserId = @UserId, RatingValue = @RatingValue, RatingDate = @RatingDate, IsActive = @IsActive 
+                            WHERE RatingId = @RatingId";
+                        command.Parameters.AddWithValue("@ProductId", rating.ProductId);
+                        command.Parameters.AddWithValue("@UserId", rating.UserId);
+                        command.Parameters.AddWithValue("@RatingValue", rating.RatingValue);
+                        command.Parameters.AddWithValue("@RatingDate", rating.RatingDate);
+                        command.Parameters.AddWithValue("@IsActive", rating.IsActive);
+                        command.Parameters.AddWithValue("@RatingId", rating.RatingId);
+
                         command.ExecuteNonQuery();
                     }
                 }

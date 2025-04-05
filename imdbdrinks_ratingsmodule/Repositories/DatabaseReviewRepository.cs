@@ -1,8 +1,8 @@
 ﻿using imdbdrinks_ratingsmodule.Domain;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace imdbdrinks_ratingsmodule.Repositories
 {
@@ -17,12 +17,12 @@ namespace imdbdrinks_ratingsmodule.Repositories
 
         public void Delete(long reviewId)
         {
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand("DELETE FROM Reviews WHERE ReviewId = @ReviewId", connection))
+                using (var command = new SqlCommand("DELETE FROM Reviews WHERE ReviewId = @ReviewId", connection))
                 {
-                    command.Parameters.Add(new MySqlParameter("@ReviewId", reviewId));
+                    command.Parameters.AddWithValue("@ReviewId", reviewId);
                     command.ExecuteNonQuery();
                 }
             }
@@ -32,25 +32,23 @@ namespace imdbdrinks_ratingsmodule.Repositories
         {
             var reviews = new List<Review>();
 
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand("SELECT * FROM Reviews", connection))
+                using (var command = new SqlCommand("SELECT * FROM Reviews", connection))
+                using (var reader = command.ExecuteReader())
                 {
-                    using (var reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        reviews.Add(new Review
                         {
-                            reviews.Add(new Review
-                            {
-                                ReviewId = reader.GetInt64("ReviewId"),
-                                RatingId = reader.GetInt64("RatingId"),
-                                UserId = reader.GetInt64("UserId"),
-                                Content = reader.GetString("Content"),
-                                CreationDate = reader.GetDateTime("CreationDate"),
-                                IsActive = reader.GetBoolean("IsActive")
-                            });
-                        }
+                            ReviewId = reader.GetInt64(reader.GetOrdinal("ReviewId")),
+                            RatingId = reader.GetInt64(reader.GetOrdinal("RatingId")),
+                            UserId = reader.GetInt64(reader.GetOrdinal("UserId")),
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            CreationDate = reader.GetDateTime(reader.GetOrdinal("CreationDate")),
+                            IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive"))
+                        });
                     }
                 }
             }
@@ -60,12 +58,12 @@ namespace imdbdrinks_ratingsmodule.Repositories
 
         public Review FindById(long reviewId)
         {
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand("SELECT * FROM Reviews WHERE ReviewId = @ReviewId", connection))
+                using (var command = new SqlCommand("SELECT * FROM Reviews WHERE ReviewId = @ReviewId", connection))
                 {
-                    command.Parameters.Add(new MySqlParameter("@ReviewId", reviewId));
+                    command.Parameters.AddWithValue("@ReviewId", reviewId);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -73,17 +71,18 @@ namespace imdbdrinks_ratingsmodule.Repositories
                         {
                             return new Review
                             {
-                                ReviewId = reader.GetInt64("ReviewId"),
-                                RatingId = reader.GetInt64("RatingId"),
-                                UserId = reader.GetInt64("UserId"),
-                                Content = reader.GetString("Content"),
-                                CreationDate = reader.GetDateTime("CreationDate"),
-                                IsActive = reader.GetBoolean("IsActive")
+                                ReviewId = reader.GetInt64(reader.GetOrdinal("ReviewId")),
+                                RatingId = reader.GetInt64(reader.GetOrdinal("RatingId")),
+                                UserId = reader.GetInt64(reader.GetOrdinal("UserId")),
+                                Content = reader.GetString(reader.GetOrdinal("Content")),
+                                CreationDate = reader.GetDateTime(reader.GetOrdinal("CreationDate")),
+                                IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive"))
                             };
                         }
                     }
                 }
             }
+
             return null;
         }
 
@@ -91,12 +90,12 @@ namespace imdbdrinks_ratingsmodule.Repositories
         {
             var reviews = new List<Review>();
 
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand("SELECT * FROM Reviews WHERE RatingId = @RatingId", connection))
+                using (var command = new SqlCommand("SELECT * FROM Reviews WHERE RatingId = @RatingId", connection))
                 {
-                    command.Parameters.Add(new MySqlParameter("@RatingId", ratingId));
+                    command.Parameters.AddWithValue("@RatingId", ratingId);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -104,12 +103,12 @@ namespace imdbdrinks_ratingsmodule.Repositories
                         {
                             reviews.Add(new Review
                             {
-                                ReviewId = reader.GetInt64("ReviewId"),
-                                RatingId = reader.GetInt64("RatingId"),
-                                UserId = reader.GetInt64("UserId"),
-                                Content = reader.GetString("Content"),
-                                CreationDate = reader.GetDateTime("CreationDate"),
-                                IsActive = reader.GetBoolean("IsActive")
+                                ReviewId = reader.GetInt32(reader.GetOrdinal("ReviewId")),
+                                RatingId = reader.GetInt32(reader.GetOrdinal("RatingId")),
+                                UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                Content = reader.GetString(reader.GetOrdinal("Content")),
+                                CreationDate = reader.GetDateTime(reader.GetOrdinal("CreationDate")),
+                                IsActive = Convert.ToBoolean(reader["IsActive"])
                             });
                         }
                     }
@@ -121,40 +120,50 @@ namespace imdbdrinks_ratingsmodule.Repositories
 
         public Review Save(Review review)
         {
-            using (var connection = new MySqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new MySqlCommand())
+                using (var command = new SqlCommand())
                 {
                     command.Connection = connection;
 
                     command.CommandText = "SELECT COUNT(*) FROM Reviews WHERE ReviewId = @ReviewId";
-                    command.Parameters.Add(new MySqlParameter("@ReviewId", review.ReviewId));
+                    command.Parameters.AddWithValue("@ReviewId", review.ReviewId);
                     var exists = Convert.ToInt32(command.ExecuteScalar()) > 0;
 
+                    command.Parameters.Clear();
 
                     if (!exists)
                     {
-                        command.Parameters.Clear();
-                        command.CommandText = "INSERT INTO Reviews (RatingId, UserId, Content, CreationDate, IsActive) VALUES (@RatingId, @UserId, @Content, @CreationDate, @IsActive)";
-                        command.Parameters.Add(new MySqlParameter("@RatingId", review.RatingId));
-                        command.Parameters.Add(new MySqlParameter("@UserId", review.UserId));
-                        command.Parameters.Add(new MySqlParameter("@Content", review.Content));
-                        command.Parameters.Add(new MySqlParameter("@CreationDate", review.CreationDate));
-                        command.Parameters.Add(new MySqlParameter("@IsActive", review.IsActive));
-                        command.ExecuteNonQuery();
-                        review.ReviewId = command.LastInsertedId;
+                        command.CommandText = @"
+                            INSERT INTO Reviews (RatingId, UserId, Content, CreationDate, IsActive)
+                            OUTPUT INSERTED.ReviewId
+                            VALUES (@RatingId, @UserId, @Content, @CreationDate, @IsActive)";
+                        command.Parameters.AddWithValue("@RatingId", review.RatingId);
+                        command.Parameters.AddWithValue("@UserId", review.UserId);
+                        command.Parameters.AddWithValue("@Content", review.Content);
+                        command.Parameters.AddWithValue("@CreationDate", review.CreationDate);
+                        command.Parameters.AddWithValue("@IsActive", review.IsActive);
+
+                        review.ReviewId = (int)command.ExecuteScalar();
                     }
                     else
                     {
-                        command.Parameters.Clear();
-                        command.CommandText = "UPDATE Reviews SET RatingId = @RatingId, UserId = @UserId, Content = @Content, CreationDate = @CreationDate, IsActive = @IsActive WHERE ReviewId = @ReviewId";
-                        command.Parameters.Add(new MySqlParameter("@ReviewId", review.ReviewId));
-                        command.Parameters.Add(new MySqlParameter("@RatingId", review.RatingId));
-                        command.Parameters.Add(new MySqlParameter("@UserId", review.UserId));
-                        command.Parameters.Add(new MySqlParameter("@Content", review.Content));
-                        command.Parameters.Add(new MySqlParameter("@CreationDate", review.CreationDate));
-                        command.Parameters.Add(new MySqlParameter("@IsActive", review.IsActive));
+                        command.CommandText = @"
+                            UPDATE Reviews
+                            SET RatingId = @RatingId,
+                                UserId = @UserId,
+                                Content = @Content,
+                                CreationDate = @CreationDate,
+                                IsActive = @IsActive
+                            WHERE ReviewId = @ReviewId";
+                        command.Parameters.AddWithValue("@ReviewId", review.ReviewId);
+                        command.Parameters.AddWithValue("@RatingId", review.RatingId);
+                        command.Parameters.AddWithValue("@UserId", review.UserId);
+                        command.Parameters.AddWithValue("@Content", review.Content);
+                        command.Parameters.AddWithValue("@CreationDate", review.CreationDate);
+                        command.Parameters.AddWithValue("@IsActive", review.IsActive);
+
                         command.ExecuteNonQuery();
                     }
                 }
