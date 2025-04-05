@@ -123,7 +123,9 @@
                 Foreground="#FFFFEE" Background="#313131" FontFamily="{StaticResource FontFamily}" FontWeight="SemiBold" />
 
             <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{x:Bind ReviewVM.Reviews, Mode=OneWay}"
-                SelectedItem="{x:Bind ReviewVM.SelectedReview, Mode=TwoWay}" Background="#cacaca">
+                SelectedItem="{x:Bind ReviewVM.SelectedReview, Mode=TwoWay}" Background="#cacaca"
+                SelectionMode="None">
+          
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="domain:Review">
                         <StackPanel>
